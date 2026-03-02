@@ -55,7 +55,7 @@ Mô hình học được các điều chỉnh tự nhiên về:
 
 ## Demo Web
 
-Trải nghiệm trực tiếp trên trình duyệt (TensorFlow.js): **Demo**
+Trải nghiệm trực tiếp trên trình duyệt (TensorFlow.js): [**Demo**](https://dauduchieu.github.io/literoom/)
 
 - Infer hoàn toàn client-side  
 - Không cần server  
