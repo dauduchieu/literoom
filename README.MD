@@ -60,7 +60,7 @@ Trải nghiệm trực tiếp trên trình duyệt (TensorFlow.js): **Demo**
 - Infer hoàn toàn client-side  
 - Không cần server  
 
-### Ảnh chuyên gia mong muốn (tham khảo Internet)
+### Ảnh chuyên gia (tham khảo Internet)
 ![Expert Reference](images/web_demo_expert.png)
 
 ### Giao diện Web Demo
