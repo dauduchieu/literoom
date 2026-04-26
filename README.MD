@@ -6,45 +6,49 @@ A learning-based system for automatic photo enhancement by predicting **global t
 
 ## ✨ Overview
 
-This project aims to enhance images by learning aesthetic adjustments from expert-retouched photos.
-Instead of directly generating images, the model predicts **interpretable tone curves**, enabling both automation and user control.
+This project learns aesthetic photo adjustments from expert-retouched images.
+
+Instead of directly generating pixels, the model predicts **interpretable tone curves**, enabling both:
+
+* automatic enhancement
+* user-controllable editing
 
 ---
 
 ## 🧠 Method
 
-* Backbone: **EfficientNet-B0** for aesthetic feature extraction
+* **Backbone**: EfficientNet-B0 for aesthetic feature extraction
 
-* A lightweight **MLP head** predicts:
+* **Prediction head**: Lightweight MLP outputs:
 
-  * **Luma tone curve** (global brightness)
-  * **RGB tone curves** (color adjustment)
+  * Luma tone curve (global brightness)
+  * RGB tone curves (color adjustment)
 
-* A fully **differentiable image processing pipeline** applies the curves using piecewise-linear LUTs
+* **Rendering pipeline**:
 
-* Training strategy:
+  * Differentiable image processing using piecewise-linear LUTs
 
-  * **Indirect supervision** using input–retouched image pairs
-  * The model learns to infer editing parameters rather than pixel-wise outputs
+* **Training**:
+
+  * Indirect supervision from input–retouched pairs
+  * Learns editing parameters instead of pixel mappings
 
 ---
 
 ## 📊 Dataset
 
-* **Adobe FiveK**
-* Uses RAW / expert-retouched pairs (Expert C)
-* Images resized to `224×224` for training
+* Adobe FiveK
+* RAW / expert-retouched pairs (Expert C)
+* Images resized to `224×224`
 
 ---
 
 ## 📈 Results
 
-* Validation performance:
+* **PSNR**: ~23 dB
+* **SSIM**: 0.83
 
-  * **PSNR**: ~23 dB
-  * **SSIM**: 0.83
-
-The model learns natural adjustments including:
+The model learns:
 
 * Exposure correction
 * Contrast enhancement
@@ -54,91 +58,85 @@ The model learns natural adjustments including:
 
 ## 🖼️ Visual Results
 
-### Input
-
+**Input**
 ![Input Image](images/example_input.png)
 
-### Expert Retouch (Target)
-
+**Expert Retouch (Target)**
 ![Target Image](images/example_target.png)
 
-### Predicted Tone Curves
-
+**Predicted Tone Curves**
 ![Predicted Curve](images/example_curve.png)
 
-### Model Output
-
+**Model Output**
 ![Model Output](images/example_output.png)
 
-### 🔍 What the Model Learns (Interpreting the Tone Curves)
+---
 
-The predicted tone curves reveal how the model adjusts the image:
+## 🔍 What the Model Learns
 
-#### 🌗 Luma Curve (Brightness & Contrast)
+### 🌗 Luma Curve (Brightness & Contrast)
 
-* The curve is slightly **above the identity line in mid-tones**
-  → Brightens darker regions (e.g., car interior becomes more visible)
+* Curve slightly **above identity in mid-tones**
+  → Brightens darker regions (e.g., interior details)
 
-* Highlights are **compressed slightly**
-  → Prevents overexposure in bright areas (background sky / road)
+* Highlights are **slightly compressed**
+  → Avoids overexposure in bright areas
 
-👉 Effect:
+**Effect**
 
-* Improves **dynamic range perception**
-* Enhances visibility without blowing out highlights
+* Better dynamic range perception
+* Improved visibility without highlight clipping
 
 ---
 
-#### 🎨 RGB Color Curves (Color Balance)
+### 🎨 RGB Color Curves (Color Balance)
 
-* **Blue channel is elevated**
-  → Adds cooler tones, reducing yellowish cast
+* **Blue channel elevated**
+  → Reduces yellowish cast (cooler tones)
 
-* **Green channel moderately increased**
-  → Stabilizes natural colors
+* **Green moderately increased**
+  → Stabilizes natural color balance
 
-* **Red channel suppressed in shadows, increased in highlights**
-  → Preserves warmth without oversaturating dark regions
+* **Red suppressed in shadows, boosted in highlights**
+  → Keeps warmth without oversaturation
 
-👉 Effect:
+**Effect**
 
-* Corrects **color cast**
-* Produces a more **cinematic, balanced color tone**
+* Corrected color cast
+* More balanced, visually pleasing tones
 
 ---
 
-#### 🧠 Overall Behavior
+### 🧠 Overall Behavior
 
-Instead of directly modifying pixels, the model learns a structured transformation:
+The model performs a structured transformation:
 
-* Adjusts **global illumination (exposure + contrast)** via Luma
-* Refines **color distribution** via channel-wise curves
+* Adjusts **global illumination** via Luma
+* Refines **color distribution** via RGB curves
 * Mimics expert editing in a **low-dimensional, interpretable space**
 
-This explains why the model:
+This leads to:
 
-* Generalizes well
-* Produces stable results
-* Remains controllable by users
+* good generalization
+* stable outputs
+* user controllability
 
 ---
 
 ### 🎯 Key Insight
 
-The model does not "generate" a new image —
-it **learns how to edit an image**, similar to how a human would adjust sliders in Lightroom.
+The model does not generate a new image.
+It **learns how to edit an image**, similar to adjusting sliders in Lightroom.
 
 ---
 
 ## 🌐 Web Demo
 
-👉 Try it here: **[https://dauduchieu.github.io/literoom/](https://dauduchieu.github.io/literoom/)**
+👉 [https://dauduchieu.github.io/literoom/](https://dauduchieu.github.io/literoom/)
 
-* Runs entirely **client-side (TensorFlow.js)**
+* Fully client-side (TensorFlow.js)
 * No server required
-* Real-time inference in the browser
-
-### Demo Preview
+* Real-time inference in browser
 
 **Expert Reference**
 ![Expert Reference](images/web_demo_expert.png)
@@ -150,20 +148,20 @@ it **learns how to edit an image**, similar to how a human would adjust sliders 
 
 ## 🎛️ Interactive Editing
 
-After prediction, users can manually refine the output via:
+Users can refine the output via:
 
 * Brightness (Luma)
 * Red / Green / Blue channels
 
-This preserves **interpretability + controllability**, unlike black-box enhancement models.
+→ Maintains **interpretability + controllability** vs black-box models
 
 ---
 
 ## 🚀 Future Work
 
 * Local tone mapping (region-aware enhancement)
-* Export **3D LUTs** for Lightroom / Photoshop
-* Model optimization for mobile deployment
+* Export 3D LUTs for Lightroom / Photoshop
+* Mobile optimization
 
 ---
 
@@ -172,7 +170,7 @@ This preserves **interpretability + controllability**, unlike black-box enhancem
 * TensorFlow / Keras
 * EfficientNet-B0
 * Differentiable image processing
-* TensorFlow.js (deployment)
+* TensorFlow.js
 
 ---
 
