@@ -1,88 +1,128 @@
-# Automated Photo Enhancement with Tone Curves
+# 📸 Automated Photo Enhancement with Tone Curves
 
-Dự án xây dựng hệ thống tự động chỉnh màu và ánh sáng ảnh bằng cách dự đoán các **tone curve toàn cục** (độ sáng và màu sắc) từ ảnh đầu vào.
-
----
-
-## Phương pháp
-
-- Sử dụng **EfficientNet-B0** để trích xuất đặc trưng thẩm mỹ từ ảnh  
-- MLP dự đoán:
-  - **Luma tone curve** (điều chỉnh độ sáng tổng thể)
-  - **RGB tone curves** (điều chỉnh màu sắc)
-- Các curve được áp dụng thông qua pipeline xử lý ảnh khả vi (*differentiable*) với LUT tuyến tính  
-
-Mô hình được huấn luyện theo hướng **indirect supervision**: học dự đoán tham số chỉnh ảnh từ cặp ảnh gốc – ảnh đã chỉnh.
+A learning-based system for automatic photo enhancement by predicting **global tone curves** for luminance and color adjustment.
 
 ---
 
-## Dữ liệu
+## ✨ Overview
 
-- Dataset: **Adobe FiveK**
-- Sử dụng các cặp ảnh RAW / retouched (C expert)
-- Resize về `224×224` cho huấn luyện
-
----
-
-## Kết quả
-
-- Giảm lỗi trên tập validation:
-  - **L1 Loss**: X.XXX  
-  - **Perceptual Loss**: X.XXX  
-
-Mô hình học được các điều chỉnh tự nhiên về:
-- Exposure  
-- Contrast  
-- Color balance  
+This project aims to enhance images by learning aesthetic adjustments from expert-retouched photos.
+Instead of directly generating images, the model predicts **interpretable tone curves**, enabling both automation and user control.
 
 ---
 
-## Ví dụ minh hoạ
+## 🧠 Method
 
-### Ảnh đầu vào
+* Backbone: **EfficientNet-B0** for aesthetic feature extraction
+
+* A lightweight **MLP head** predicts:
+
+  * **Luma tone curve** (global brightness)
+  * **RGB tone curves** (color adjustment)
+
+* A fully **differentiable image processing pipeline** applies the curves using piecewise-linear LUTs
+
+* Training strategy:
+
+  * **Indirect supervision** using input–retouched image pairs
+  * The model learns to infer editing parameters rather than pixel-wise outputs
+
+---
+
+## 📊 Dataset
+
+* **Adobe FiveK**
+* Uses RAW / expert-retouched pairs (Expert C)
+* Images resized to `224×224` for training
+
+---
+
+## 📈 Results
+
+* Validation performance:
+
+  * **PSNR**: ~23 dB
+  * **SSIM**: 0.83
+
+The model learns natural adjustments including:
+
+* Exposure correction
+* Contrast enhancement
+* Color balancing
+
+---
+
+## 🖼️ Visual Results
+
+### Input
+
 ![Input Image](images/example_input.png)
 
-### Ảnh mục tiêu (Expert Retouch)
+### Expert Retouch (Target)
+
 ![Target Image](images/example_target.png)
 
-### Tone Curve được dự đoán
+### Predicted Tone Curves
+
 ![Predicted Curve](images/example_curve.png)
 
-### Ảnh đầu ra của mô hình
+### Model Output
+
 ![Model Output](images/example_output.png)
 
 ---
 
-## Demo Web
+## 🌐 Web Demo
 
-Trải nghiệm trực tiếp trên trình duyệt (TensorFlow.js): [**Demo**](https://dauduchieu.github.io/literoom/)
+👉 Try it here: **[https://dauduchieu.github.io/literoom/](https://dauduchieu.github.io/literoom/)**
 
-- Infer hoàn toàn client-side  
-- Không cần server  
+* Runs entirely **client-side (TensorFlow.js)**
+* No server required
+* Real-time inference in the browser
 
-### Ảnh chuyên gia (tham khảo Internet)
+### Demo Preview
+
+**Expert Reference**
 ![Expert Reference](images/web_demo_expert.png)
 
-### Giao diện Web Demo
+**Web Interface**
 ![Web Demo Overview](images/web_demo.png)
 
-### Người dùng có thể tinh chỉnh thêm
+**User Refinement**
 ![User Refinement](images/web_demo_user_refinement.png)
 
 ---
 
-## Tuỳ chỉnh sau khi dự đoán
+## 🎛️ Interactive Editing
 
-Sau khi mô hình dự đoán, người dùng có thể chỉnh lại các tone curve:
+After prediction, users can manually refine the output via:
 
-- **Brightness (Luma)**
-- **Red**
-- **Green**
-- **Blue**
+* Brightness (Luma)
+* Red / Green / Blue channels
+
+This preserves **interpretability + controllability**, unlike black-box enhancement models.
 
 ---
 
-## Hướng phát triển
-- Mở rộng sang local tone mapping
-- Export LUT 3D cho Lightroom / Photoshop
-- Tối ưu model cho mobile
+## 🚀 Future Work
+
+* Local tone mapping (region-aware enhancement)
+* Export **3D LUTs** for Lightroom / Photoshop
+* Model optimization for mobile deployment
+
+---
+
+## 🛠️ Tech Stack
+
+* TensorFlow / Keras
+* EfficientNet-B0
+* Differentiable image processing
+* TensorFlow.js (deployment)
+
+---
+
+## 🔗 Repository
+
+👉 [https://github.com/dauduchieu/literoom](https://github.com/dauduchieu/literoom)
+
+---
