@@ -70,6 +70,64 @@ The model learns natural adjustments including:
 
 ![Model Output](images/example_output.png)
 
+### 🔍 What the Model Learns (Interpreting the Tone Curves)
+
+The predicted tone curves reveal how the model adjusts the image:
+
+#### 🌗 Luma Curve (Brightness & Contrast)
+
+* The curve is slightly **above the identity line in mid-tones**
+  → Brightens darker regions (e.g., car interior becomes more visible)
+
+* Highlights are **compressed slightly**
+  → Prevents overexposure in bright areas (background sky / road)
+
+👉 Effect:
+
+* Improves **dynamic range perception**
+* Enhances visibility without blowing out highlights
+
+---
+
+#### 🎨 RGB Color Curves (Color Balance)
+
+* **Blue channel is elevated**
+  → Adds cooler tones, reducing yellowish cast
+
+* **Green channel moderately increased**
+  → Stabilizes natural colors
+
+* **Red channel suppressed in shadows, increased in highlights**
+  → Preserves warmth without oversaturating dark regions
+
+👉 Effect:
+
+* Corrects **color cast**
+* Produces a more **cinematic, balanced color tone**
+
+---
+
+#### 🧠 Overall Behavior
+
+Instead of directly modifying pixels, the model learns a structured transformation:
+
+* Adjusts **global illumination (exposure + contrast)** via Luma
+* Refines **color distribution** via channel-wise curves
+* Mimics expert editing in a **low-dimensional, interpretable space**
+
+This explains why the model:
+
+* Generalizes well
+* Produces stable results
+* Remains controllable by users
+
+---
+
+### 🎯 Key Insight
+
+The model does not "generate" a new image —
+it **learns how to edit an image**, similar to how a human would adjust sliders in Lightroom.
+
 ---
 
 ## 🌐 Web Demo
@@ -87,9 +145,6 @@ The model learns natural adjustments including:
 
 **Web Interface**
 ![Web Demo Overview](images/web_demo.png)
-
-**User Refinement**
-![User Refinement](images/web_demo_user_refinement.png)
 
 ---
 
